@@ -118,7 +118,7 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title='
                                         <StyledTableCell align="center">{row.amount || 'NA'}</StyledTableCell>
                                         <StyledTableCell align="center">{row.mobileNumber || 'NA'}</StyledTableCell>
                                         <StyledTableCell align="center">{row.address}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.paymentType}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.paymentStatus === 'completed' ? row.paymentType : 'NA'}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             {row.paymentStatus === 'completed' ? <Chip label="Completed" color="success" size='small' /> : <Chip label="Pending" color="warning" size='small' />}
                                         </StyledTableCell>
