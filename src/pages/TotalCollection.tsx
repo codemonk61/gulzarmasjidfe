@@ -71,43 +71,64 @@ const TotalCollection = () => {
           }}
         >
           {expenses.map((card, index) => (
-              <Card key={index}>
-                <CardActionArea sx={{ height: '100%' }}>
-                  <CardContent sx={{ height: '100%' }}>
-                    <Typography variant="h5" component="div">
-                      {card.count}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {card.title}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-        
+            <Card key={index} sx={{boxshadow: 
+             '0px 2px -7px -20px rgba(9, 242, 16, 0.2), 0px 1px 1px 0px rgba(3, 251, 12, 0.14),  0px 1px 3px 0px rgba(4, 251, 12, 0.12)'
+            }}
+              >
+              <CardActionArea sx={{ height: '100%' }}>
+                <CardContent sx={{ height: '100%' }}>
+                  <Typography variant="h5" component="div" sx={{fontWeight: 'bold', color: '#2f7d32'}}>
+                    {card.count}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {card.title}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+
           ))}
         </Box>
-     
 
-      {/* Tabs Section */}
-      <Box sx={{ width: '100%', typography: 'body1' }}>
-        <TabContext value={selectedTab}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabList onChange={handleChange}>
-              {expenses.map((value, index) => (
-                <Tab key={index} label={`${value.title} (${value.count})`} value={value.title} />
-              ))}
-            </TabList>
-          </Box>
-          {expenses.map((value, index) => (
-            <TabPanel key={index} value={value.title}>
-              <UserList 
-              data={selectedData}
-              title={value.title}
-               />
-            </TabPanel>
-          ))}
-        </TabContext>
-      </Box>
+
+        {/* Tabs Section */}
+        <Box sx={{ width: '100%', typography: 'body1' }}>
+          <TabContext value={selectedTab}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <TabList
+                onChange={handleChange}
+                textColor="inherit"
+                TabIndicatorProps={{
+                  style: { backgroundColor: "#2f7d32" } // Changes the underline color
+                }}
+              >
+                {expenses.map((value, index) => (
+                  <Tab
+                    key={index}
+                    label={`${value.title}
+                  (${value.count})`}
+                    value={value.title}
+                    sx={{
+                     
+                      "&.Mui-selected": {
+                        color: "#2f7d32", // Active tab text color
+                    
+                      },
+                    }}
+                  />
+                ))}
+              </TabList>
+            </Box>
+            {expenses.map((value, index) => (
+              <TabPanel key={index} value={value.title}>
+                <UserList
+                  data={selectedData}
+                  title={value.title}
+                />
+              </TabPanel>
+            ))}
+          </TabContext>
+        </Box>
       </PageContainer>
     </>
   );

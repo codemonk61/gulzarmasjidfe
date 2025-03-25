@@ -16,7 +16,7 @@ import EditUser from './EditUser';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: "#1678cd",
+        backgroundColor: "#2f7d32",
         color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
@@ -96,9 +96,9 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title='
                 :
                 <PageContainer title={title}>
                     <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                            <TableHead>
-                                <TableRow>
+                        <Table sx={{ minWidth: 700,  }} aria-label="customized table">
+                            <TableHead >
+                                <TableRow >
                                     <StyledTableCell>Name</StyledTableCell>
                                     <StyledTableCell align="center">Amount</StyledTableCell>
                                     <StyledTableCell align="center">Mobile Number</StyledTableCell>
@@ -124,7 +124,7 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title='
                                         </StyledTableCell>
                                         <StyledTableCell align="center">{row.sweetGiven ? 'YES' : 'NO'}</StyledTableCell>
                                         <StyledTableCell align="center">
-                                            <Button onClick={() => row._id && handleEdit(row._id)} variant="contained">
+                                            <Button color="success" onClick={() => row._id && handleEdit(row._id)} variant="contained">
                                                 Edit
                                             </Button>
                                         </StyledTableCell>

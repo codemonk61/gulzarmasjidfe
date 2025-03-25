@@ -41,6 +41,7 @@ const SearchUser: React.FC = () => {
                         margin="normal"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                        color="success"
                     />
                 </Grid>
                 <Grid sm={12} xs={12} md={6} lg={6}>
@@ -51,10 +52,11 @@ const SearchUser: React.FC = () => {
                         margin="normal"
                         value={mobileNumber}
                         onChange={(e) => setMobileNumber(e.target.value)}
+                        color="success"
                     />
                 </Grid>
             </Grid>
-            <Button loading={loading} variant="contained" color="primary" fullWidth onClick={handleSearch}>
+            <Button loading={loading} variant="contained" color="success" fullWidth onClick={handleSearch}>
                 Search
             </Button>
             
