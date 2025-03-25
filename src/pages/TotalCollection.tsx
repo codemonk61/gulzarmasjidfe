@@ -92,14 +92,15 @@ const TotalCollection = () => {
 
 
         {/* Tabs Section */}
-        <Box sx={{ width: '100%', typography: 'body1' }}>
-          <TabContext value={selectedTab}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Box sx={{ width: '100%', typography: 'body1', '& .MuiTabPanel-root':{paddingLeft: 0, paddingRight: 0}}}>
+          <TabContext value={selectedTab} >
+            <Box sx={{ borderBottom: 1, borderColor: 'divider',  }}>
               <TabList
                 onChange={handleChange}
                 textColor="inherit"
                 TabIndicatorProps={{
-                  style: { backgroundColor: "#2f7d32" } // Changes the underline color
+                  style: { backgroundColor: "#2f7d32", } ,// Changes the underline color
+                
                 }}
               >
                 {expenses.map((value, index) => (
@@ -112,7 +113,6 @@ const TotalCollection = () => {
                      
                       "&.Mui-selected": {
                         color: "#2f7d32", // Active tab text color
-                    
                       },
                     }}
                   />

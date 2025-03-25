@@ -1,14 +1,12 @@
 import * as React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { extendTheme, styled } from "@mui/material/styles";
+import { extendTheme, } from "@mui/material/styles";
 import { AppProvider, Navigation } from "@toolpad/core/AppProvider";
 import { DashboardLayout } from "@toolpad/core/DashboardLayout";
-import { PageContainer } from "@toolpad/core/PageContainer";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
-import Grid from "@mui/material/Grid";
 import AddUser from "./pages/AddUser";
 import SearchUser from "./pages/SearchUser";
 import UserList from "./pages/UserList";
@@ -49,6 +47,7 @@ export default function App(props: any) {
         "& .MuiTypography-root.MuiTypography-h6": { color: "#2f7d32 !important" },
         "& .MuiSvgIcon-root": { color: "#2f7d32" }, 
       }}
+      
         >
               <Routes>
               <Route path="/" element={<Navigate to="/total-collection" />} />
