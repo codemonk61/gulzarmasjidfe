@@ -11,9 +11,9 @@ export interface Village {
   sweetGiven: boolean
 }
 
-// const BASE_URL = "https://masjid-gulzar.onrender.com/api/villagers";
+const BASE_URL = "https://masjid-gulzar.onrender.com/api/villagers";
 
-const BASE_URL = 'http://localhost:5000/api/villagers'
+// const BASE_URL = 'http://localhost:5000/api/villagers'
 
 
 // Function to get users
