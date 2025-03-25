@@ -58,7 +58,7 @@ const SearchUser: React.FC = () => {
             
         </PageContainer>
         {
-            searchedData.length ? <UserList data={searchedData} hideSearchResult={hideSearchResult}/> : <></>
+            searchedData.length ? <UserList title='Search List' data={searchedData} hideSearchResult={hideSearchResult}/> : <></>
          }
         </>
     );

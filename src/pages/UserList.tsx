@@ -37,10 +37,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 type UserListPropsType = {
     data?: Village[];
-    hideSearchResult?: () => void
+    hideSearchResult?: () => void,
+    title?: string
 }
 
-const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult}) => {
+const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title='User List'}) => {
 
     const [villages, setVillages] = useState<Village[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -89,7 +90,7 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult}) => {
                     hideSearchResult={hideSearchResult}
                 />
                 :
-                <PageContainer title={data ? 'Search List' : 'User List'}>
+                <PageContainer title={title}>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 700 }} aria-label="customized table">
                             <TableHead>
@@ -104,8 +105,8 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult}) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {villages.map((row) => (
-                                    <StyledTableRow key={row.name}>
+                                {villages.map((row, index) => (
+                                    <StyledTableRow key={index}>
                                         <StyledTableCell component="th" scope="row">
                                             {row.name}
                                         </StyledTableCell>
