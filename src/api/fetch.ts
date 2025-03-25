@@ -12,7 +12,7 @@ export interface Village {
   paymentType: string;
 }
 
-const BASE_URL = "https://masjid-gulzar.onrender.com/api/villagers";
+const BASE_URL = "https://travifunds.onrender.com/api/villagers";
 
 // const BASE_URL = 'http://localhost:5000/api/villagers'
 
