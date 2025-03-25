@@ -131,13 +131,14 @@ const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, h
                 </Grid>
 
                 <Grid item xs={12}>
-                    <FormControl>
+                   {formData.paymentStatus === 'completed' && <FormControl>
                         <FormLabel id="payment-type-label">Payment Type</FormLabel>
                         <RadioGroup row name="paymentType" value={formData.paymentType} onChange={handlePaymentTypeChange}>
                             <FormControlLabel value="cash" control={<Radio />} label="Cash" />
-                            <FormControlLabel value="online" control={<Radio />} label="Online" />
+                            <FormControlLabel   value="online" control={<Radio />} label="Online" />
                         </RadioGroup>
                     </FormControl>
+}
                 </Grid>
 
 

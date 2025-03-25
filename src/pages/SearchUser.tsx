@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, TextField, Button, Typography } from "@mui/material";
+import { TextField, Button, } from "@mui/material";
 import { PageContainer } from "@toolpad/core";
 import { Grid } from '@mui/material';
 import { fetchVillagers, Village } from "../api/fetch";
@@ -14,8 +14,9 @@ const SearchUser: React.FC = () => {
     const handleSearch = async () => {
         try{
             setLoading(true)
+            setSearchData([]);
             const data = await fetchVillagers(name, mobileNumber)
-            setSearchData(data)
+            setSearchData([...data])
             setLoading(false)
         } catch(e){
             setLoading(false)
@@ -26,6 +27,7 @@ const SearchUser: React.FC = () => {
     const hideSearchResult = () => {
         setSearchData([])
     }
+
 
     return (
         <>
