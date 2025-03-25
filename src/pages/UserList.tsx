@@ -69,10 +69,14 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title='
                 }
             };
 
-            getVillages();
+            title === 'User List' &&  getVillages();
         }
 
     }, []);
+
+    if(data?.length === 0){
+        return <></>
+    }
 
     if (loading) {
         return <PageContainer title='User List'>
@@ -99,13 +103,14 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title='
                                     <StyledTableCell align="center">Amount</StyledTableCell>
                                     <StyledTableCell align="center">Mobile Number</StyledTableCell>
                                     <StyledTableCell align="center">Address</StyledTableCell>
+                                    <StyledTableCell align="center">Payment Type</StyledTableCell>
                                     <StyledTableCell align="center">Payment Status</StyledTableCell>
                                     <StyledTableCell align="center">Sweet Received</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {villages.map((row, index) => (
+                                { villages.map((row, index) => (
                                     <StyledTableRow key={index}>
                                         <StyledTableCell component="th" scope="row">
                                             {row.name}
@@ -113,6 +118,7 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title='
                                         <StyledTableCell align="center">{row.amount || 'NA'}</StyledTableCell>
                                         <StyledTableCell align="center">{row.mobileNumber || 'NA'}</StyledTableCell>
                                         <StyledTableCell align="center">{row.address}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.paymentType}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             {row.paymentStatus === 'completed' ? <Chip label="Completed" color="success" size='small' /> : <Chip label="Pending" color="warning" size='small' />}
                                         </StyledTableCell>

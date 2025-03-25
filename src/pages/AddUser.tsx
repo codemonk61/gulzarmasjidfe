@@ -28,6 +28,7 @@ const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, h
         amount: "",
         paymentStatus: "",
         sweetGiven: false,
+        paymentType: ""
     });
    
   
@@ -48,6 +49,10 @@ const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, h
         setFormData({ ...formData, paymentStatus: e.target.value });
     };
 
+    const handlePaymentTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, paymentType: e.target.value });
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
@@ -63,6 +68,7 @@ const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, h
                 amount: "",
                 paymentStatus: "",
                 sweetGiven: false,
+                paymentType: ""
             });
         } catch (error) {
             alert("Failed to add village");
@@ -120,6 +126,16 @@ const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, h
                         <RadioGroup row name="paymentStatus" value={formData.paymentStatus} onChange={handleRadioChange}>
                             <FormControlLabel value="completed" control={<Radio />} label="Completed" />
                             <FormControlLabel value="pending" control={<Radio />} label="Pending" />
+                        </RadioGroup>
+                    </FormControl>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <FormControl>
+                        <FormLabel id="payment-type-label">Payment Type</FormLabel>
+                        <RadioGroup row name="paymentType" value={formData.paymentType} onChange={handlePaymentTypeChange}>
+                            <FormControlLabel value="cash" control={<Radio />} label="Cash" />
+                            <FormControlLabel value="online" control={<Radio />} label="Online" />
                         </RadioGroup>
                     </FormControl>
                 </Grid>

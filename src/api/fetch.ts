@@ -8,7 +8,8 @@ export interface Village {
   address: string;
   amount: string;
   paymentStatus: string;
-  sweetGiven: boolean
+  sweetGiven: boolean;
+  paymentType: string;
 }
 
 const BASE_URL = "https://masjid-gulzar.onrender.com/api/villagers";
@@ -32,7 +33,6 @@ export const fetchAllVillages = async (): Promise<Village[]> => {
 export const addVillage = async (data: Village): Promise<void> => {
   try {
     const response = await axios.post(`${BASE_URL}/add`, data);
-    console.log("Village added successfully:", response.data);
   } catch (error) {
     console.error("Error adding village:", error);
     throw error; 
