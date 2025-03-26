@@ -32,7 +32,14 @@ const Login: React.FC = () => {
 
     return (
         <Grid container alignItems={"center"}>
-            <Grid xs={0} sm={0} md={6} lg={6} xl={6} sx={{ height: '100vh', background: "#2f7d32" }}>
+            <Grid xs={0} sm={0} md={6} lg={6} xl={6}
+                sx={{
+                    height: '100vh',
+                    background: "#2f7d32",
+                    display: { xs: "none", sm: "none", md: "flex", xl: "flex", lg: "flex" }, // Hides on mobile
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}>
                 <div style={{ display: 'flex', justifyContent: "center", alignItems: 'center', height: "100vh" }}><MasjidIcon fill="white" height="300px" /></div>
             </Grid>
             <Grid xs={0} sm={0} md={6} lg={6} xl={6}>
