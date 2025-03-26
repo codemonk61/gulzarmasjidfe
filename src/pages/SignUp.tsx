@@ -9,10 +9,12 @@ const Signup: React.FC = () => {
     const [emailId, setEmailId] = useState("");
     const [securityCode, setSecurityCode] = useState("");
     const [password, setPassword] = useState("");
+     const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
 
     const handleSignup = async () => {
         try {
+            setLoading(true)
             const response = await fetch("https://travifunds.onrender.com/api/auth/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -22,11 +24,15 @@ const Signup: React.FC = () => {
             const data = await response.json();
             if (data.success) {
                 alert("Signup successful! Please log in.");
+                setLoading(false)
                 navigate("/login");
             } else {
+                setLoading(false)
                 alert(data.message);
+                
             }
         } catch (error) {
+            setLoading(false)
             console.error("Signup Error:", error);
         }
     };
@@ -53,7 +59,7 @@ const Signup: React.FC = () => {
                         <TextField label="Security Code" color="success" fullWidth margin="normal" value={securityCode} onChange={(e) => setSecurityCode(e.target.value)} />
                         <TextField label="Password" color="success" type="password" fullWidth margin="normal" value={password} onChange={(e) => setPassword(e.target.value)} />
                        <Typography sx={{margin: "8px 0px" , textAlign: "right", cursor: "pointer"}} variant="body1" onClick={()=>navigate('/login')}>login?</Typography>
-                        <Button variant="contained" color="success" fullWidth onClick={handleSignup}>
+                        <Button loading={loading} variant="contained" color="success" fullWidth onClick={handleSignup}>
                             Signup
                         </Button>
                     </Container>

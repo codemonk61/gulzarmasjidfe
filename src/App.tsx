@@ -16,6 +16,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/SignUp";
 import { AuthProvider, AuthContext } from "./context/AuthContext";
 
+
 const NAVIGATION: Navigation = [
   { segment: "total-collection", title: "Total Collection", icon: <DashboardIcon sx={{ color: "#2f7d32" }} /> },
   { segment: "add-user", title: "Add User", icon: <PersonAddAltIcon sx={{ color: "#2f7d32" }} /> },
@@ -47,36 +48,44 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 export default function App(props: any) {
   return (
-    <AuthProvider>
-      <AppProvider navigation={NAVIGATION} theme={demoTheme}>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/" element={<Navigate to="/total-collection" />} />
-          <Route
-            path="/*"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout
-                  branding={{ title: "Gulzar Masjid", logo: <MasjidIcon />, homeUrl: "/" }}
-                  sx={{
-                    "& .MuiTypography-root.MuiTypography-h6": { color: "#2f7d32 !important" },
-                    "& .MuiSvgIcon-root": { color: "#2f7d32" },
-                  }}
-                >
-                  <Routes>
-                    <Route path="/total-collection" element={<TotalCollection />} />
-                    <Route path="/add-user" element={<AddUser />} />
-                    <Route path="/search-user" element={<SearchUser />} />
-                    <Route path="/user-list" element={<UserList />} />
-                    <Route path="*" element={<h1>404 - Page Not Found</h1>} />
-                  </Routes>
-                </DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </AppProvider>
-    </AuthProvider>
+    <>
+  
+      <AuthProvider>
+        <AppProvider navigation={NAVIGATION} theme={demoTheme}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/" element={<Navigate to="/total-collection" />} />
+            <Route
+              path="/*"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout
+                    branding={{ title: "Gulzar Masjid", logo: <MasjidIcon />, homeUrl: "/" }}
+                    sx={{
+                      "& .MuiTypography-root.MuiTypography-h6": {
+                        color: "#2f7d32 !important",
+                        fontFamily: "'Reem Kufi', Arial, sans-serif", 
+                        fontSize: "1.5rem", 
+                        fontWeight: 700, 
+                      },
+                      "& .MuiSvgIcon-root": { color: "#2f7d32" },
+                    }}
+                  >
+                    <Routes>
+                      <Route path="/total-collection" element={<TotalCollection />} />
+                      <Route path="/add-user" element={<AddUser />} />
+                      <Route path="/search-user" element={<SearchUser />} />
+                      <Route path="/user-list" element={<UserList />} />
+                      <Route path="*" element={<h1>404 - Page Not Found</h1>} />
+                    </Routes>
+                  </DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </AppProvider>
+      </AuthProvider>
+    </>
   );
 }

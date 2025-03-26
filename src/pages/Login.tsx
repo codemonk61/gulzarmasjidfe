@@ -7,11 +7,13 @@ import MasjidIcon from "../components/MasjidIcon";
 const Login: React.FC = () => {
     const [emailId, setEmailId] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false)
     const auth = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
+            setLoading(true)
             const response = await fetch("https://travifunds.onrender.com/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -21,12 +23,16 @@ const Login: React.FC = () => {
             const data = await response.json();
             if (data.success) {
                 auth?.login(data.token);
+                setLoading(false)
                 navigate("/");
+               
             } else {
                 alert(data.message);
+                setLoading(false)
             }
         } catch (error) {
             console.error("Login Error:", error);
+            setLoading(false)
         }
     };
 
@@ -50,7 +56,7 @@ const Login: React.FC = () => {
 
                     <Typography sx={{ margin: "8px 0px", textAlign: "right", cursor: "pointer" }} variant="body1" onClick={() => navigate('/signup')}>Signup?</Typography>
 
-                    <Button variant="contained" color="success" fullWidth onClick={handleLogin}>
+                    <Button loading={loading} variant="contained" color="success" fullWidth onClick={handleLogin}>
                         Login
                     </Button>
 
