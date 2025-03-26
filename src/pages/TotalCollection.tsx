@@ -104,7 +104,7 @@ const TotalCollection = () => {
                 }}
               >
                 {expenses.map((value, index) => (
-                  <Tab
+                 value.title !== 'Total Amount Collected' && <Tab
                     key={index}
                     label={`${value.title}
                   (${value.count})`}
