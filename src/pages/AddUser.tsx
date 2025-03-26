@@ -45,6 +45,7 @@ const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, h
         setFormData({ ...formData, sweetGiven: e.target.checked });
     };
 
+
     const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, paymentStatus: e.target.value });
     };
@@ -55,11 +56,17 @@ const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, h
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if(formData.paymentStatus === 'completed' && !formData.amount){
+          alert("Please Enter Amount")
+          return
+        }
+
         try {
             setLoading(true)
             await addVillage(formData);
             setLoading(false)
-            alert("Village added successfully!");
+            alert("User added successfully!");
             setFormData({
                 _id: "",
                 name: "",
@@ -71,24 +78,29 @@ const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, h
                 paymentType: ""
             });
         } catch (error) {
-            alert("Failed to add village");
+            alert("Failed to add user");
             setLoading(false)
         }
     };
 
     const handleEdit = async (e: React.FormEvent) => {
         e.preventDefault();
+       
+        if(formData.paymentStatus === 'completed' && !!formData.amount){
+            alert("Please Enter Amount")
+            return
+          }
         try {
             setLoading(true)
             data && await updateUser(data._id, formData);
             setLoading(false)
-            alert("Village added successfully!");
+            alert("User Edited successfully!");
 
             editBtnClick && editBtnClick('')
             hideSearchResult && hideSearchResult()
 
         } catch (error) {
-            alert("Failed to add village");
+            alert("Failed to add User");
             setLoading(false)
         }
     };
