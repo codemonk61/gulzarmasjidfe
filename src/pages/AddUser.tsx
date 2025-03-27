@@ -57,11 +57,6 @@ const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, h
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if(formData.paymentStatus === 'completed' && !formData.amount){
-          alert("Please Enter Amount")
-          return
-        }
-
         try {
             setLoading(true)
             await addVillage(formData);
@@ -86,10 +81,6 @@ const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, h
     const handleEdit = async (e: React.FormEvent) => {
         e.preventDefault();
        
-        if(formData.paymentStatus === 'completed' && !!formData.amount){
-            alert("Please Enter Amount")
-            return
-          }
         try {
             setLoading(true)
             data && await updateUser(data._id, formData);
