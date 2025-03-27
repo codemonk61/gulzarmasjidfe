@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { fetchAllVillages, fetchSingleUser, Village } from '../api/fetch';
+import React, { useState, useEffect } from 'react';
+import { fetchAllVillages, Village } from '../api/fetch';
 import Loader from '../components/Loader';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -13,6 +13,8 @@ import { PageContainer } from '@toolpad/core';
 import { Button, Grid } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import EditUser from './EditUser';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -28,24 +30,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
         backgroundColor: theme.palette.action.hover,
     },
-    // hide last border
     '&:last-child td, &:last-child th': {
         border: 0,
     },
 }));
 
-
 type UserListPropsType = {
     data?: Village[];
-    hideSearchResult?: () => void,
-    title?: string
-}
+    hideSearchResult?: () => void;
+    title?: string;
+};
 
-const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title='User List'}) => {
-
+const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title = 'User List' }) => {
     const [villages, setVillages] = useState<Village[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [userId, setUserId] = useState<string>('')
+    const [userId, setUserId] = useState<string>('');
 
     const handleEdit = async (id: string) => {
        
@@ -54,51 +53,79 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title='
 
     useEffect(() => {
         if (data?.length) {
-            setVillages(data)
+            setVillages(data);
             setLoading(false);
         } else {
-
             const getVillages = async () => {
                 try {
                     const data = await fetchAllVillages();
                     setVillages(data);
                 } catch (error) {
-                    console.error("Failed to load villages");
+                    console.error('Failed to load villages');
                 } finally {
                     setLoading(false);
                 }
             };
 
-            title === 'User List' &&  getVillages();
+            title === 'User List' && getVillages();
         }
-
     }, []);
 
-    if(data?.length === 0){
-        return <></>
+    const handleDownloadPDF = () => {
+        const doc = new jsPDF();
+        doc.text('User List', 15, 10);
+        autoTable(doc, {
+            head: [['SL No.','Name', 'Amount', 'Mobile Number', 'Address', 'Payment Type', 'Payment Status', 'Sweet Received']],
+            body: villages.map((row, index)=>{
+            
+                return (
+                [   index + 1 ,
+                    row.name,
+                    row.amount || 'NA',
+                    row.mobileNumber || 'NA',
+                    row.address,
+                    row.paymentStatus === 'completed' ? row.paymentType : 'NA',
+                    row.paymentStatus === 'completed' ? 'Completed' : 'Pending',
+                    row.sweetGiven ? 'YES' : 'NO',
+                ]
+                )
+            })
+        });
+        doc.save('User_List.pdf');
+    };
+
+    if (data?.length === 0) {
+        return <></>;
     }
 
     if (loading) {
-        return <PageContainer title='User List'>
-            <Grid justifyContent={"center"}>
-                <Loader />
-            </Grid>
-        </PageContainer>
+        return (
+            <PageContainer title="User List">
+                <Grid justifyContent={'center'}>
+                    <Loader />
+                </Grid>
+            </PageContainer>
+        );
     }
+
     return (
         <>
-            {userId ?
-                <EditUser
-                    id={userId}
-                    handleEdit={handleEdit}
-                    hideSearchResult={hideSearchResult}
-                />
-                :
+            {userId ? (
+                <EditUser id={userId} handleEdit={handleEdit} hideSearchResult={hideSearchResult} />
+            ) : (
                 <PageContainer title={title}>
+                    {/* Download PDF Button */}
+                    <Grid container justifyContent="flex-end" sx={{ mb: 2 }}>
+                        <Button variant="contained" color="success" onClick={handleDownloadPDF}>
+                            Download PDF
+                        </Button>
+                    </Grid>
+
                     <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 700,  }} aria-label="customized table">
-                            <TableHead >
-                                <TableRow >
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                <StyledTableCell>SL No.</StyledTableCell>
                                     <StyledTableCell>Name</StyledTableCell>
                                     <StyledTableCell align="center">Amount</StyledTableCell>
                                     <StyledTableCell align="center">Mobile Number</StyledTableCell>
@@ -110,21 +137,30 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title='
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                { villages.map((row, index) => (
+                                {villages.map((row, index) => (
                                     <StyledTableRow key={index}>
+                                        <StyledTableCell component="th" scope="row">
+                                        {index + 1}
+                                        </StyledTableCell>
                                         <StyledTableCell component="th" scope="row">
                                             {row.name}
                                         </StyledTableCell>
                                         <StyledTableCell align="center">{row.amount || 'NA'}</StyledTableCell>
                                         <StyledTableCell align="center">{row.mobileNumber || 'NA'}</StyledTableCell>
                                         <StyledTableCell align="center">{row.address}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.paymentStatus === 'completed' ? row.paymentType : 'NA'}</StyledTableCell>
                                         <StyledTableCell align="center">
-                                            {row.paymentStatus === 'completed' ? <Chip label="Completed" color="success" size='small' /> : <Chip label="Pending" color="warning" size='small' />}
+                                            {row.paymentStatus === 'completed' ? row.paymentType : 'NA'}
+                                        </StyledTableCell>
+                                        <StyledTableCell align="center">
+                                            {row.paymentStatus === 'completed' ? (
+                                                <Chip label="Completed" color="success" size="small" />
+                                            ) : (
+                                                <Chip label="Pending" color="warning" size="small" />
+                                            )}
                                         </StyledTableCell>
                                         <StyledTableCell align="center">{row.sweetGiven ? 'YES' : 'NO'}</StyledTableCell>
                                         <StyledTableCell align="center">
-                                            <Button color="success" onClick={() => row._id && handleEdit(row._id)} variant="contained">
+                                            <Button color="success" onClick={() => row._id && setUserId(row._id)} variant="contained">
                                                 Edit
                                             </Button>
                                         </StyledTableCell>
@@ -134,9 +170,10 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title='
                         </Table>
                     </TableContainer>
                 </PageContainer>
-            }
+            )}
         </>
     );
-}
+};
 
 export default UserList;
+
