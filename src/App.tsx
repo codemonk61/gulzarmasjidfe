@@ -15,6 +15,10 @@ import MasjidIcon from "./components/MasjidIcon";
 import Login from "./pages/Login";
 import Signup from "./pages/SignUp";
 import { AuthProvider, AuthContext } from "./context/AuthContext";
+import AddExpendature from "./pages/AddExpendature";
+import AllExpendature from "./pages/AllExpendature";
+import CurrencyRupeeSharpIcon from '@mui/icons-material/CurrencyRupeeSharp';
+import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp';
 
 
 const NAVIGATION: Navigation = [
@@ -22,6 +26,8 @@ const NAVIGATION: Navigation = [
   { segment: "add-user", title: "Add User", icon: <PersonAddAltIcon sx={{ color: "#2f7d32" }} /> },
   { segment: "search-user", title: "Search User", icon: <PersonSearchIcon sx={{ color: "#2f7d32" }} /> },
   { segment: "user-list", title: "User List", icon: <RecentActorsIcon sx={{ color: "#2f7d32" }} /> },
+  { segment: "add-expendature", title: "Add Expendature", icon: <AddCircleOutlineSharpIcon sx={{ color: "#2f7d32" }} /> },
+  { segment: "all-expendature", title: "All Expendature", icon: <CurrencyRupeeSharpIcon sx={{ color: "#2f7d32" }} /> },
 ];
 
 const demoTheme = extendTheme({
@@ -77,8 +83,11 @@ export default function App(props: any) {
                       <Route path="/add-user" element={<AddUser />} />
                       <Route path="/search-user" element={<SearchUser />} />
                       <Route path="/user-list" element={<UserList />} />
+                      <Route path="/add-expendature" element={<AddExpendature />} />
+                      <Route path="/all-expendature" element={<AllExpendature />} />
                       <Route path="*" element={<h1>404 - Page Not Found</h1>} />
                     </Routes>
+
                   </DashboardLayout>
                 </ProtectedRoute>
               }

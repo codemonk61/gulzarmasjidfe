@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchAllVillages, Village } from '../api/fetch';
+import { deleteVillage, fetchAllVillages, Village } from '../api/fetch';
 import Loader from '../components/Loader';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -15,6 +15,9 @@ import Chip from '@mui/material/Chip';
 import EditUser from './EditUser';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import ModeIcon from '@mui/icons-material/Mode';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -47,8 +50,21 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title =
     const [userId, setUserId] = useState<string>('');
 
     const handleEdit = async (id: string) => {
-       
         setUserId(id)
+    }
+
+    const removeVillager = async(id: string) => {
+        setLoading(true)
+        try{
+            await deleteVillage(id)
+            fetchAllVillages()
+            setLoading(false)
+            alert("user deleted success")
+        } catch(e){
+            alert("Error deleting user")
+            setLoading(false)
+        }
+       
     }
 
     useEffect(() => {
@@ -116,8 +132,8 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title =
                 <PageContainer title={title}>
                     {/* Download PDF Button */}
                     <Grid container justifyContent="flex-end" sx={{ mb: 2 }}>
-                        <Button variant="contained" color="success" onClick={handleDownloadPDF}>
-                            Download PDF
+                        <Button variant="outlined" color="success" onClick={handleDownloadPDF}>
+                        <CloudDownloadIcon sx={{marginRight: "4px"}}/>{" "} Download PDF
                         </Button>
                     </Grid>
 
@@ -160,8 +176,11 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title =
                                         </StyledTableCell>
                                         <StyledTableCell align="center">{row.sweetGiven ? 'YES' : 'NO'}</StyledTableCell>
                                         <StyledTableCell align="center">
-                                            <Button color="success" onClick={() => row._id && setUserId(row._id)} variant="contained">
-                                                Edit
+                                            <Button sx={{marginBottom: "4px"}} color="success" onClick={() => row._id && setUserId(row._id)} variant="outlined">
+                                            <ModeIcon/>
+                                            </Button>
+                                            <Button color="success" onClick={() => row._id && removeVillager(row._id)} variant="outlined">
+                                            <DeleteIcon/>
                                             </Button>
                                         </StyledTableCell>
                                     </StyledTableRow>

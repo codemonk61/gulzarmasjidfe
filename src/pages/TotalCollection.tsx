@@ -12,6 +12,19 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import UserList from './UserList';
+import Person2SharpIcon from '@mui/icons-material/Person2Sharp';
+import CurrencyRupeeSharpIcon from '@mui/icons-material/CurrencyRupeeSharp';
+import VolunteerActivismSharpIcon from '@mui/icons-material/VolunteerActivismSharp';
+import WatchLaterSharpIcon from '@mui/icons-material/WatchLaterSharp';
+import CreditScoreSharpIcon from '@mui/icons-material/CreditScoreSharp';
+
+const iconMapper: any = {
+  'Total User': <Person2SharpIcon />,
+  'Total Amount Collected': <CurrencyRupeeSharpIcon />,
+  'Sweet Given': <VolunteerActivismSharpIcon />,
+  'Payment Pending': <WatchLaterSharpIcon />,
+  'Payment Completed': <CreditScoreSharpIcon />
+}
 
 const TotalCollection = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -70,16 +83,20 @@ const TotalCollection = () => {
             marginBottom: '20px'
           }}
         >
-          {expenses.map((card, index) => (
-            <Card key={index} sx={{boxshadow: 
-             '0px 2px -7px -20px rgba(9, 242, 16, 0.2), 0px 1px 1px 0px rgba(3, 251, 12, 0.14),  0px 1px 3px 0px rgba(4, 251, 12, 0.12)'
+          {expenses.map((card: any, index) => (
+            <Card key={index} sx={{
+              boxshadow:
+                '0px 2px -7px -20px rgba(9, 242, 16, 0.2), 0px 1px 1px 0px rgba(3, 251, 12, 0.14),  0px 1px 3px 0px rgba(4, 251, 12, 0.12)'
             }}
-              >
+            >
               <CardActionArea sx={{ height: '100%' }}>
                 <CardContent sx={{ height: '100%' }}>
-                  <Typography variant="h5" component="div" sx={{fontWeight: 'bold', color: '#2f7d32'}}>
-                    {card.count}
-                  </Typography>
+                  <div style={{ display: 'flex', alignItems: "center", gap: '4px' }}>
+                 {iconMapper[card.title]}
+                    <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#2f7d32' }}>
+                      {card.count}
+                    </Typography>
+                  </div>
                   <Typography variant="body2" color="text.secondary">
                     {card.title}
                   </Typography>
@@ -92,25 +109,25 @@ const TotalCollection = () => {
 
 
         {/* Tabs Section */}
-        <Box sx={{ width: '100%', typography: 'body1', '& .MuiTabPanel-root':{paddingLeft: 0, paddingRight: 0}}}>
+        <Box sx={{ width: '100%', typography: 'body1', '& .MuiTabPanel-root': { paddingLeft: 0, paddingRight: 0 } }}>
           <TabContext value={selectedTab} >
-            <Box sx={{ borderBottom: 1, borderColor: 'divider',  }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>
               <TabList
                 onChange={handleChange}
                 textColor="inherit"
                 TabIndicatorProps={{
-                  style: { backgroundColor: "#2f7d32", } ,// Changes the underline color
-                
+                  style: { backgroundColor: "#2f7d32", },// Changes the underline color
+
                 }}
               >
                 {expenses.map((value, index) => (
-                 value.title !== 'Total Amount Collected' && <Tab
+                  value.title !== 'Total Amount Collected' && <Tab
                     key={index}
                     label={`${value.title}
                   (${value.count})`}
                     value={value.title}
                     sx={{
-                     
+
                       "&.Mui-selected": {
                         color: "#2f7d32", // Active tab text color
                       },

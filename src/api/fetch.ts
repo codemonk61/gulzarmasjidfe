@@ -28,6 +28,17 @@ export const fetchAllVillages = async (): Promise<Village[]> => {
   }
 };
 
+// Function to get users
+export const deleteVillage = async (id: string): Promise<Village[]> => {
+  try {
+    const response = await axios.delete<Village[]>(`${BASE_URL}/${id}`);
+    return response.data; 
+  } catch (error) {
+    console.error("Error deleting villages:", error);
+    throw error; 
+  }
+};
+
 
 // Function to add a new village
 export const addVillage = async (data: Village): Promise<void> => {
@@ -91,6 +102,25 @@ export const fetchSingleUser = async (id: string) => {
       return response.data; 
     } catch (error) {
       console.error("Error fetching expenses:", error);
+      throw error; 
+    }
+  };
+
+  export const addExpenses = async (data: any): Promise<void> => {
+    try {
+      const response = await axios.post(`${BASE_URL}/expenses`, data);
+    } catch (error) {
+      console.error("Error expense:", error);
+      throw error; 
+    }
+  };
+
+  export const getExpenses = async (): Promise<void> => {
+    try {
+      const response = await axios.get(`${BASE_URL}/expenses`);
+      return response.data; 
+    } catch (error) {
+      console.error("Error expense:", error);
       throw error; 
     }
   };
