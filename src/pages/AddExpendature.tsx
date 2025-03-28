@@ -38,6 +38,8 @@ const AddExpenditure = () => {
         }
     }
 
+    const isDisable = expenditures.every((value)=> (value.name && value.expenseAmount))
+
     return (
         <PageContainer title='Add Expenditure'>
             {expenditures.map((datum, index)=>{
@@ -65,9 +67,9 @@ const AddExpenditure = () => {
                     <Grid item xs={12} sm={12} md={6} lg={5} xl={5}>
                     <Typography variant="h5" sx={{visibility: 'hidden'}}>.</Typography>
                         <TextField
-                            name="amount"
+                            name="expenseAmount"
                             size="medium"
-                            label="Amount"
+                            label="amount"
                             color="success"
                             fullWidth
                             margin="normal"
@@ -89,7 +91,7 @@ const AddExpenditure = () => {
             }
             <Grid container sx={{ marginTop: "20px" }}>
                 <Grid item xs={12} sm={12} md={6} lg={2} xl={2}>
-                    <Button loading={loadingExpenses} onClick={addExpensesToDB} variant="contained" color="success" size="medium" fullWidth={false}>
+                    <Button disabled={!isDisable} loading={loadingExpenses} onClick={addExpensesToDB} variant="contained" color="success" size="medium" fullWidth={false}>
                         Submit
                     </Button>
                 </Grid>
