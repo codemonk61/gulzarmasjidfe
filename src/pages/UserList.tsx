@@ -49,9 +49,21 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title =
     const [loading, setLoading] = useState<boolean>(true);
     const [userId, setUserId] = useState<string>('');
 
-    const handleEdit = async (id: string) => {
-        setUserId(id)
-    }
+    const handleEdit = async (id: string, updatedData?: Village) => {
+        if (updatedData) {
+            // Update the state with the edited user details
+            setVillages(prevVillages =>
+                prevVillages.map(village => (village._id === id ? updatedData : village))
+            );
+        } else {
+            // If updatedData is not provided, fetch all villages again
+            const updatedVillages = await fetchAllVillages();
+            setVillages(updatedVillages);
+        }
+    
+        // Reset userId to return to the list view
+        setUserId("");
+    };
 
     const removeVillager = async(id: string) => {
         setLoading(true)
@@ -83,7 +95,7 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title =
                 }
             };
 
-            title === 'User List' && getVillages();
+             getVillages();
         }
     }, []);
 

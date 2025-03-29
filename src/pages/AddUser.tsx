@@ -14,8 +14,8 @@ import { addVillage, updateUser, Village } from "../api/fetch";
 
 type AddUserPropsType = {
     data?: Village
-    handleEdit?: (id: string)=> {};
-    hideSearchResult?:()=> void
+    handleEdit?: (id: string) => {};
+    hideSearchResult?: () => void
 }
 
 const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, hideSearchResult }) => {
@@ -30,8 +30,8 @@ const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, h
         sweetGiven: false,
         paymentType: ""
     });
-   
-  
+
+
     const [loading, setLoading] = useState(false)
 
     const handleChange = (
@@ -80,15 +80,17 @@ const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, h
 
     const handleEdit = async (e: React.FormEvent) => {
         e.preventDefault();
-       
+
         try {
             setLoading(true)
             data && await updateUser(data._id, formData);
-            setLoading(false)
-            alert("User Edited successfully!");
+     
+          
 
             editBtnClick && editBtnClick('')
             hideSearchResult && hideSearchResult()
+            alert("User Edited successfully!");
+            setLoading(false)
 
         } catch (error) {
             alert("Failed to add User");
@@ -101,25 +103,25 @@ const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, h
         <PageContainer title={data ? "Edit User" : "Add User"}>
             <Grid container spacing={2}>
                 <Grid item sm={12} xs={12} md={4} lg={4}>
-        
-                        <TextField fullWidth color="success" onChange={handleChange} name="name" id="name" label="Name" variant="outlined" value={formData.name} />
-                    
+
+                    <TextField fullWidth color="success" onChange={handleChange} name="name" id="name" label="Name" variant="outlined" value={formData.name} />
+
                 </Grid>
 
                 <Grid item sm={12} xs={12} md={4} lg={4}>
-                        <TextField fullWidth color="success" onChange={handleChange} name="mobileNumber" id="mobileNumber" label="Mobile Number" variant="outlined" value={formData.mobileNumber} />
+                    <TextField fullWidth color="success" onChange={handleChange} name="mobileNumber" id="mobileNumber" label="Mobile Number" variant="outlined" value={formData.mobileNumber} />
                 </Grid>
 
                 <Grid item sm={12} xs={12} md={4} lg={4}>
-                    
-                        <TextField fullWidth color="success" onChange={handleChange} name="amount" id="amount" label="Amount" variant="outlined" value={formData.amount} />
-                  
+
+                    <TextField fullWidth color="success" onChange={handleChange} name="amount" id="amount" label="Amount" variant="outlined" value={formData.amount} />
+
                 </Grid>
 
                 <Grid item sm={12} xs={12} md={12} lg={12}>
-                    
-                        <TextField fullWidth color="success" onChange={handleChange} name="address" id="address" label="Address" variant="outlined" value={formData.address} rows={4} multiline/>
-                  
+
+                    <TextField fullWidth color="success" onChange={handleChange} name="address" id="address" label="Address" variant="outlined" value={formData.address} rows={4} multiline />
+
                 </Grid>
 
 
@@ -127,27 +129,27 @@ const AddUser: React.FC<AddUserPropsType> = ({ data, handleEdit: editBtnClick, h
                     <FormControl>
                         <FormLabel id="payment-status-label">Payment Status</FormLabel>
                         <RadioGroup row name="paymentStatus" value={formData.paymentStatus} onChange={handleRadioChange}>
-                            <FormControlLabel  value="completed" control={<Radio color="success" />} label="Completed" />
-                            <FormControlLabel  value="pending" control={<Radio color="success" />} label="Pending" />
+                            <FormControlLabel value="completed" control={<Radio color="success" />} label="Completed" />
+                            <FormControlLabel value="pending" control={<Radio color="success" />} label="Pending" />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
 
                 <Grid item xs={12}>
-                   {formData.paymentStatus === 'completed' && <FormControl>
+                    {formData.paymentStatus === 'completed' && <FormControl>
                         <FormLabel id="payment-type-label">Payment Type</FormLabel>
                         <RadioGroup row name="paymentType" value={formData.paymentType} onChange={handlePaymentTypeChange}>
                             <FormControlLabel color="success" value="cash" control={<Radio color="success" />} label="Cash" />
-                            <FormControlLabel  color="success" value="online" control={<Radio color="success" />} label="Online" />
+                            <FormControlLabel color="success" value="online" control={<Radio color="success" />} label="Online" />
                         </RadioGroup>
                     </FormControl>
-}
+                    }
                 </Grid>
 
 
                 <Grid item md={12} lg={12}>
                     <FormGroup>
-                        <FormControlLabel control={<Switch checked={formData.sweetGiven} onChange={handleSwitchChange} color="success"/>} label="Sweet Received" />
+                        <FormControlLabel control={<Switch checked={formData.sweetGiven} onChange={handleSwitchChange} color="success" />} label="Sweet Received" />
                     </FormGroup>
                 </Grid>
 

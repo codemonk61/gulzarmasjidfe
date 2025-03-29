@@ -28,7 +28,7 @@ export const fetchAllVillages = async (): Promise<Village[]> => {
   }
 };
 
-// Function to get users
+// Function to delete users
 export const deleteVillage = async (id: string): Promise<Village[]> => {
   try {
     const response = await axios.delete<Village[]>(`${BASE_URL}/${id}`);
@@ -121,6 +121,26 @@ export const fetchSingleUser = async (id: string) => {
       return response.data; 
     } catch (error) {
       console.error("Error expense:", error);
+      throw error; 
+    }
+  };
+
+  export const updateExpense = async (id: string, updatedData: object) => {
+    try {
+      const response = await axios.put(`${BASE_URL}/expenses/${id}`, updatedData);
+      return response.data; 
+    } catch (error) {
+      console.error("Error updating user:", error);
+      throw error; 
+    }
+  };
+
+  export const deleteExpense = async (id: string): Promise<Village[]> => {
+    try {
+      const response = await axios.delete<Village[]>(`${BASE_URL}/expenses/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.error("Error deleting expense:", error);
       throw error; 
     }
   };

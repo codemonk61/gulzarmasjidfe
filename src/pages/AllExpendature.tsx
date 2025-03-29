@@ -6,8 +6,12 @@ import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import { PageContainer } from '@toolpad/core';
 import CurrencyRupeeSharpIcon from '@mui/icons-material/CurrencyRupeeSharp';
-import { getExpenses } from '../api/fetch';
+import { deleteExpense, getExpenses, updateExpense } from '../api/fetch';
 import Loader from '../components/Loader';
+import EditIcon from '@mui/icons-material/Edit';
+import { Button } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ExpensesForm from '../components/ExpensesForm';
 
 
 
@@ -15,6 +19,24 @@ const AllExpendature = () => {
 
     const [selectedCard, setSelectedCard] = React.useState<any>({});
     const [loading, setLoading] = React.useState(false)
+    const [expenseData, setExpanseData] = React.useState({ name: "", expenseAmount: "", _id: "" })
+
+    let expense = {}
+
+    const [id, setId] = React.useState("")
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setExpanseData(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }));
+    };
+
+    const setExpenseDataAndId = (e: any, data: any) => {
+        e.stopPropagation()
+        setId(data._id)
+        setExpanseData(data)
+    }
 
     React.useEffect(() => {
         const fetchExpensesData = async () => {
@@ -32,13 +54,39 @@ const AllExpendature = () => {
         fetchExpensesData();
     }, [])
 
-    if (loading) {
-        return <Loader />
-       
+    const handleEditExpenseClick = async () => {
+        setLoading(true)
+        try {
+            await updateExpense(id, expenseData)
+            const data = await getExpenses()
+            setSelectedCard(data)
+            setId("")
+            setLoading(false)
+        } catch (e) {
+            alert(`${e}`,)
+        }
+
     }
 
-    if(Object.keys(selectedCard).length === 0){
-       return <Loader />
+    const handleExpenseDelete = async (removeId: string) => {
+        setLoading(true)
+        try {
+            await deleteExpense(removeId)
+            const data = await getExpenses()
+            setSelectedCard(data)
+            setLoading(false)
+        } catch (e) {
+            setLoading(false)
+        }
+    }
+
+    if (loading) {
+        return <PageContainer ><Loader /></PageContainer>
+
+    }
+
+    if (Object.keys(selectedCard).length === 0) {
+        return <Loader />
     }
 
     return (
@@ -52,10 +100,26 @@ const AllExpendature = () => {
                         gap: 2,
                     }}
                 >
-                    {selectedCard && selectedCard.itemExpenses.map((card: any, index: number) => (
-                        <Card key={index}>
+                    {selectedCard.itemExpenses.length ? selectedCard.itemExpenses.map((card: any, index: number) => (
+                        <Card key={index} sx={{ position: "relative" }}>
+                            <div style={{ zIndex: 1, display: "flex", alignItems: "center", gap: "4px", position: "absolute", top: "10px", right: "10px" }}>
+
+                                <button
+                                    onClick={(e) => setExpenseDataAndId(e, card)}
+                                    style={{ background: "transparent", border: "none", cursor: "pointer" }}
+                                >
+                                    <EditIcon sx={{ height: '20px', width: "20px" }} />
+                                </button>
+
+                                <button
+                                    onClick={(e) => handleExpenseDelete(card._id)}
+                                    style={{ background: "transparent", border: "none", cursor: "pointer" }}
+                                >
+                                    <DeleteIcon sx={{ height: '20px', width: "20px" }} />
+                                </button>
+
+                            </div>
                             <CardActionArea
-                                onClick={() => setSelectedCard(index)}
                                 data-active={selectedCard === index ? '' : undefined}
                                 sx={{
                                     height: '100%',
@@ -77,8 +141,12 @@ const AllExpendature = () => {
                                 </CardContent>
                             </CardActionArea>
                         </Card>
-                    ))}
+                    ))
+                :
+                <Typography variant='subtitle1' color='error'>No Expense Item Found</Typography>
+                }
                 </Box>
+                {id && <ExpensesForm handleEditExpenseClick={handleEditExpenseClick} datum={expenseData} handleChange={handleChange} />}
             </PageContainer>
             <PageContainer title={"Sub Total"}>
                 <Box
@@ -89,10 +157,10 @@ const AllExpendature = () => {
                         gap: 2,
                     }}
                 >
-                    {selectedCard && selectedCard.subTotal.map((card: any, index: number) => {
+                    {selectedCard.subTotal.length ?  selectedCard.subTotal.map((card: any, index: number) => {
 
-                        
-                        
+
+
                         return (
                             <Card key={index}>
                                 <CardActionArea
@@ -121,7 +189,10 @@ const AllExpendature = () => {
                         )
                     }
 
-                    )}
+                    )
+                    :
+                    <Typography variant='subtitle1' color='error'>No Expanse Found</Typography>
+                }
 
                 </Box>
 

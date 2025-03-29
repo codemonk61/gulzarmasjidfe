@@ -4,6 +4,7 @@ import { PageContainer } from '@toolpad/core';
 import React, { useState, ChangeEvent } from 'react';
 import AddSharpIcon from '@mui/icons-material/AddSharp';
 import { addExpenses } from '../api/fetch';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 type ExpenditureType = {
     name: string;
@@ -18,6 +19,13 @@ const AddExpenditure = () => {
     const handleAddExpenditure = () => {
         setExpenditures([...expenditures, { name: "", expenseAmount: "" }]);
     };
+
+    const removeExpandature = (key: number) => {
+        let updatedExpandature = expenditures.filter((_, index)=>{
+           return  index !== key
+        })
+        setExpenditures(updatedExpandature)
+    }
 
     const handleChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -79,11 +87,15 @@ const AddExpenditure = () => {
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={2} xl={2}>
                     <Typography variant="h5" sx={{visibility: 'hidden'}}>.</Typography>
-                        {index === expenditures.length - 1 && (
+                        {index === expenditures.length - 1 ? 
                             <Button onClick={handleAddExpenditure} variant="outlined" color='success' size='medium'>
                                 <AddSharpIcon sx={{ height: "24px", width: "24px" }} />
                             </Button>
-                        )}
+                            :
+                            <Button onClick={()=>removeExpandature(index)} variant="outlined" color='success' size='medium'>
+                                <RemoveIcon sx={{ height: "24px", width: "24px" }} />
+                            </Button>
+                        }
                     </Grid>
                 </Grid>
                 )
