@@ -71,6 +71,7 @@ const UserList: React.FC<UserListPropsType> = ({ data, hideSearchResult, title =
             await deleteVillage(id)
             fetchAllVillages()
             setLoading(false)
+            hideSearchResult && hideSearchResult()
             alert("user deleted success")
         } catch(e){
             alert("Error deleting user")
